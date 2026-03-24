@@ -52,31 +52,12 @@
 
       <!-- Listas horizontais -->
       <section class="rows">
-        <div class="row">
-          <h2 class="row-title">Descubra suas próximas histórias</h2>
-          <div class="row-scroller" id="row-trending">
-            <!-- cards preenchidos via JS -->
-          </div>
-        </div>
-
-        <div class="row">
-          <h2 class="row-title">Séries para maratonar</h2>
-          <div class="row-scroller" id="row-series">
-            <!-- cards preenchidos via JS -->
-          </div>
-        </div>
-
-        <div class="row">
-          <h2 class="row-title">Filmes populares</h2>
-          <div class="row-scroller" id="row-movies">
-            <!-- cards preenchidos via JS -->
-          </div>
-        </div>
-
-        <div class="row">
-            <h2 class="row-title">Não assista esses filmes</h2>
-            <div class="row-scroller" id="row-watchlist">
-              <!-- cards preenchidos via JS -->
+          <h1 >Filmes em destaque</h1> 
+          <div class="row">
+            <div class="card" v-for="filme in filmes" :key="filme.id">
+              <img :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`" :alt="filme.name">
+              <div class="card-title">
+                {{ filme.name }}</div>
             </div>
           </div>
 
@@ -95,40 +76,47 @@
 
 import {api, cfg} from "../services/api";
 
+import axios from "axios";
+
 export default {
   name: "Home",
   data () {
     return {
-        tituloEmDestaque: "todo mundo odeia o chris",
-sinopseDoFilmeEmDestaque: "Chris é um adolescente que vive no bairro de Bedford-Stuyvesant, em Nova York, durante os anos 80. Ele enfrenta os desafios típicos da adolescência, como a escola, os amigos e a família, enquanto lida com as dificuldades de crescer em um ambiente difícil. A série é conhecida por seu humor ácido e suas situações engraçadas, além de abordar temas importantes como racismo, bullying e desigualdade social."};
+      tituloEmDestaque: '',
+      sinopseDoFilmeEmDestaque: '',
+      filmes: [],
+    } 
+  },
+  computed: {
+    getImageUrl(path) {
+      return `https://image.tmdb.org/t/p/w500${path}`;
+    }, 
   },
     
     mounted() {
-     Promise.all([
-        api.get("trending/movie/week"),
-        api.get("tv/popular"),
-        api.get("movie/popular")
-    ])
-      .then(([trendingRes, seriesRes, moviesRes]) => {
-        this.trendingMovies = trendingRes.data.results || [];
-        this.sinopseDoFilmeEmDestaque = first.overview || this.sinopseDoFilmeEmDestaque;
-        this.popularSeries = seriesRes.data.results || [];
-        this.popularMovies = moviesRes.data.results || [];
-      })
-        .catch((error) => {
-            console.error("Erro ao carregar dados da API:", error);
-        })
-        .finally(() => {
-            this.loaded = true;
-        });
+      this.buscarFilmesEmDestaque(); 
+
     },
     methods: {
-        getImageUrl(path) {
-            if (!path) return "";
-            return `${cfg.imageBaseUrl}${path}`;
-        },
-    }
+        buscarFilmesEmDestaque() {
+          axios({ 
+          method: 'GET',
+          url: 'https://api.themoviedb.org/3/tv/popular',
+          params: {
+            api_key: '3397ebd7286392e73314a9073a477fac',
+          },
+        })
+        .then(response => {
+          this.filmes = response.data.title;
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error('Erro ao buscar filmes em destaque:', error);
+        });
+      }        
+    },
 };
+
 
 </script>
 
@@ -365,7 +353,16 @@ main {
 }
 
 .row {
-  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 16px;
+  flex-wrap: nowrap;
+  padding-bottom: 10px;
+  /* Esconde barra de rolagem no chrome, safari e opera */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  display: none;
 }
 
 .row-title {
@@ -398,12 +395,13 @@ main {
 }
 
 .card {
-  position: relative;
-  border-radius: 0.25rem;
-  overflow: hidden;
-  background-color: #181818;
-  transform-origin: center;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  flex:0 0 auto;
+  width: 180px;
+  height: 300px;
+   background-color: #333;
+   color: #fff; 
+   border-radius: 6px;
+   overflow: hidden;  
 }
 
 .card img {
