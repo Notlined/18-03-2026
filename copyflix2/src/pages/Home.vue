@@ -1,127 +1,171 @@
 <template>
-   
-   <header class="top-nav">
-     <div class="nav-left">
-        <div class="logo">COPYFLIX</div>
-        <nav class="main-menu">
-          <a href="/" class="active">Início</a>
-          <a href="./screens/conta/index.html">Conta</a>
-          <a href="./screens/perfil/index.html">Perfil</a>
-          <a href="./screens/Filmes/index.html">Filmes</a>
-          <a href="./screens/Bombando/index.html">Bombando</a>
-          <a href="./screens/MinhaLista/index.html">Minha lista</a>
-        </nav>
+
+
+  <div class="hero-content">
+    <h2>CRIAR CONTA</h2>
+    <form @submit.prevent="criarUsuario" class="form-container">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input v-model="email" type="email" id="email" name="email" placeholder="digite seu email" required>
       </div>
-      <div class="nav-right">
-        <button class="icon-button" aria-label="Buscar">
-          🔍
-        </button>
-        <button class="icon-button" aria-label="Notificações" >
-          🔔
-        </button>
-        <a class="profile" href="/screens/login/index.html"> <img class="profile" src="https://avatars.githubusercontent.com/u/243793905?v=4&size=64" alt="perfil"></a>
+
+      <div class="input-group">
+        <label for="nome">nome</label>
+        <input v-model="nome" type="text" id="nome" name="nome" placeholder="digite seu nome" >
       </div>
-    </header>
-    
-    
-     <main>
-      <!-- Seção de destaque / herói -->
-      <section id="hero" class="hero">
-        <div class="hero-background" id="hero-background">
-          <!-- imagem de fundo via CSS/JS -->
+
+      <div class="input-group">
+        <label for="senha">senha</label>
+        <input v-model="senha" type="password" id="senha" name="senha" placeholder="digite sua senha" required>
+      </div>
+      <div class="input-group">
+        <label for="confirmarsenha">confirmar senha</label>
+        <input v-model="confirmarSenha" type="password" id="confirmarsenha" name="confirmarsenha"
+          placeholder="confirme sua senha" required>
+      </div>
+
+      <button type="submit">Criar Conta</button>
+    </form>
+    <table class="table-container">
+      <tr>
+        <th>Já tem uma conta?</th>
+        <td><a href="/screens/login/index.html">Faça login</a></td>
+      </tr>
+    </table>
+
+
+  </div>
+
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="logo">COPYFLIX</div>
+      <nav class="main-menu">
+        <a href="/" class="active">Início</a>
+        <a href="./screens/conta/index.html">Conta</a>
+        <a href="./screens/perfil/index.html">Perfil</a>
+        <a href="./screens/Filmes/index.html">Filmes</a>
+        <a href="./screens/Bombando/index.html">Bombando</a>
+        <a href="./screens/MinhaLista/index.html">Minha lista</a>
+      </nav>
+    </div>
+    <div class="nav-right">
+      <button class="icon-button" aria-label="Buscar">
+        🔍
+      </button>
+      <button class="icon-button" aria-label="Notificações">
+        🔔
+      </button>
+      <a class="profile" href="/screens/login/index.html"> <img class="profile"
+          src="https://avatars.githubusercontent.com/u/243793905?v=4&size=64" alt="perfil"></a>
+    </div>
+  </header>
+
+
+  <main>
+    <!-- Seção de destaque / herói -->
+    <section id="hero" class="hero">
+      <div class="hero-background" id="hero-background">
+        <!-- imagem de fundo via CSS/JS -->
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 id="hero-title" class="hero-title">{{ tituloEmDestaque }}</h1>
+        <p id="hero-overview" class="hero-overview">
+          {{ sinopseDoFilmeEmDestaque }}
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary">
+            ▶ Assistir
+          </button>
+          <button class="btn btn-secondary">
+            ⓘ Mais informações
+          </button>
         </div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-          <h1 id="hero-title" class="hero-title">{{ tituloEmDestaque}}</h1>
-          <p id="hero-overview" class="hero-overview">
-            {{ sinopseDoFilmeEmDestaque}}
-          </p>
-          <div class="hero-actions">
-            <button class="btn btn-primary">
-              ▶ Assistir
-            </button>
-            <button class="btn btn-secondary">
-              ⓘ Mais informações
-            </button>
-          </div>
-          <div class="hero-pagination" id="hero-pagination">
-            <!-- bolinhas do carrossel de destaque (preenchidas via JS) -->
-          </div>
+        <div class="hero-pagination" id="hero-pagination">
+          <!-- bolinhas do carrossel de destaque (preenchidas via JS) -->
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Listas horizontais -->
-      <section class="rows">
-          <h1 >Filmes em destaque</h1> 
-          <div class="row">
-            <div class="card" v-for="filme in filmes" :key="filme.id">
-              <img :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`" :alt="filme.name">
-              <div class="card-title">
-                {{ filme.name }}</div>
-            </div>
-          </div>
+    <!-- Listas horizontais -->
+    <section class="rows">
+      <h1>Filmes em destaque</h1>
+      <div class="row">
+        <div class="card" v-for="filme in filmes" :key="filme.id">
+          <img :src="`https://image.tmdb.org/t/p/w500${filme.poster_path}`" :alt="filme.name">
+          <div class="card-title">
+            {{ filme.name }}</div>
+        </div>
+      </div>
 
 
-      </section>
-    </main>
+    </section>
+  </main>
 
-    <footer class="footer">
-      <p>Clone simples da página inicial da Netflix para estudos.</p>
-    </footer>
+  <footer class="footer">
+    <p>Clone simples da página inicial da Netflix para estudos.</p>
+  </footer>
 
 
 </template>
 
-<script >
+<script>
 
-import {api, cfg} from "../services/api";
+import { normalizeClass } from "vue";
+import { api, cfg } from "../services/api";
 
 import axios from "axios";
 
 export default {
   name: "Home",
-  data () {
+  data() {
     return {
-      tituloEmDestaque: '',
-      sinopseDoFilmeEmDestaque: '',
-      filmes: [],
-    } 
+      nome: "",
+      email: "",
+      senha: "",
+      confirmarSenha: ""
+    };
   },
-  computed: {
-    getImageUrl(path) {
-      return `https://image.tmdb.org/t/p/w500${path}`;
-    }, 
-  },
-    
-    mounted() {
-      this.buscarFilmesEmDestaque(); 
 
-    },
-    methods: {
-        buscarFilmesEmDestaque() {
-          axios({ 
-          method: 'GET',
-          url: 'https://api.themoviedb.org/3/tv/popular',
-          params: {
-            api_key: '3397ebd7286392e73314a9073a477fac',
-          },
-        })
-        .then(response => {
-          this.filmes = response.data.title;
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('Erro ao buscar filmes em destaque:', error);
-        });
-      }        
-    },
+  mounted() {
+
+  },
+  methods: {
+    criarUsuario() {
+      console.log(this.nome, this.email, this.senha, this.confirmarSenha);
+      if (this.senha === '') {
+        alert("A senha é obrigatória!");
+        return;
+      }
+      if (this.confirmarSenha === '') {
+        alert("A confirmação de senha é obrigatória!");
+        return;
+      }
+      if (this.email === '') {
+        alert("O email é obrigatório!");
+        return;
+      }
+      if (this.nome === '') {
+        alert("O nome é obrigatório!");
+        return;
+      }
+      if (this.senha.length < 6) {
+        alert("A senha deve conter pelo menos 6 caracteres!");
+        return;
+      }
+      if (this.senha !== this.confirmarSenha) {
+        alert("As senhas não coincidem!");
+        return;
+
+      }
+    }
+  },
 };
 
 
 </script>
 
 <style>
-
 /* Reset simples */
 *,
 *::before,
@@ -166,11 +210,9 @@ button {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 3.5vw;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0)
-  );
+  background-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0));
 }
 
 .nav-left {
@@ -231,7 +273,8 @@ button {
 }
 
 main {
-  padding-top: 56px; /* espaço para o header fixo */
+  padding-top: 56px;
+  /* espaço para o header fixo */
 }
 
 /* Hero section */
@@ -255,11 +298,9 @@ main {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-      circle at 20% 20%,
+  background: radial-gradient(circle at 20% 20%,
       rgba(0, 0, 0, 0.2),
-      transparent 55%
-    ),
+      transparent 55%),
     linear-gradient(to top, #000 10%, transparent 60%);
 }
 
@@ -342,14 +383,13 @@ main {
 
 /* Rows */
 .rows {
-  margin-top: -3rem; /* puxa as listas para perto do destaque */
+  margin-top: -3rem;
+  /* puxa as listas para perto do destaque */
   padding: 0 3.5vw 3rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    #000 18%,
-    #000 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      #000 18%,
+      #000 100%);
 }
 
 .row {
@@ -360,8 +400,10 @@ main {
   flex-wrap: nowrap;
   padding-bottom: 10px;
   /* Esconde barra de rolagem no chrome, safari e opera */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
   display: none;
 }
 
@@ -395,13 +437,13 @@ main {
 }
 
 .card {
-  flex:0 0 auto;
+  flex: 0 0 auto;
   width: 180px;
   height: 300px;
-   background-color: #333;
-   color: #fff; 
-   border-radius: 6px;
-   overflow: hidden;  
+  background-color: #333;
+  color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .card img {
@@ -434,6 +476,35 @@ main {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.excel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.excel-table th,
+.excel-table td {
+  border: 1px solid #000;
+}
+
+.excel-table th,
+.excel-table td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.excel-table thead th {
+  background-color: #e8e8e8;
+  font-weight: bold;
+  font-size: 100.5%;
+}
+
 /* Footer */
 .footer {
   padding: 2rem 3.5vw;
@@ -460,5 +531,4 @@ main {
     height: 65vh;
   }
 }
-
 </style>
